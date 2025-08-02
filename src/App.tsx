@@ -23,7 +23,7 @@ function getNewTodoId(todos: TodoWithUser[]) {
 
 export const App = () => {
   const [title, setTitle] = useState('');
-  const [option, setOption] = useState(0);
+  const [option, setOption] = useState('');
   const [todos, setTodos] = useState<TodoWithUser[]>(initialTodos);
   const [wasSubmitted, setWasSubmitted] = useState(false);
 
@@ -33,7 +33,7 @@ export const App = () => {
 
   function reset() {
     setTitle('');
-    setOption(0);
+    setOption('');
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -41,7 +41,7 @@ export const App = () => {
 
     setWasSubmitted(true);
 
-    if (!title.trim() || option === 0) {
+    if (!title.trim() || option === '') {
       return;
     }
 
@@ -49,8 +49,8 @@ export const App = () => {
       id: getNewTodoId(todos),
       title: title,
       completed: false,
-      userId: option,
-      user: getUserById(option),
+      userId: +option,
+      user: getUserById(+option),
     });
 
     reset();
@@ -83,9 +83,9 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={option}
-            onChange={event => setOption(+event.target.value)}
+            onChange={event => setOption(event.target.value)}
           >
-            <option value="0" disabled>
+            <option value="" disabled>
               Choose a user
             </option>
             {usersFromServer.map(user => (
